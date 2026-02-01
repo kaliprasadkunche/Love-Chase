@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { UserResponseData } from '../types';
-import html2canvas from 'html2canvas';
+import domtoimage from 'dom-to-image';
 
 declare const emailjs: any;
 
@@ -85,16 +85,17 @@ const FinalScreen: React.FC<FinalScreenProps> = ({ responseData }) => {
     const element = document.getElementById('memory-card');
     if (element) {
       setTimeout(() => {
-        html2canvas(element, {
-          useCORS: true,
-          allowTaint: true,
-          backgroundColor: '#000000'
-        }).then(canvas => {
-          const link = document.createElement('a');
-          link.download = 'first chase.png';
-          link.href = canvas.toDataURL('image/png');
-          link.click();
-        });
+        domtoimage.toPng(element)
+          .then(dataUrl => {
+            const link = document.createElement('a');
+            link.download = 'first chase.png';
+            link.href = dataUrl;
+            link.click();
+          })
+          .catch(error => {
+            console.error('Error generating image:', error);
+            alert('Failed to download the card. Please try again.');
+          });
       }, 200);
     }
   };
