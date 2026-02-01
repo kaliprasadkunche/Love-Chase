@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { UserResponseData } from '../types';
-import portrait from '../portrait.jpeg';
+import html2canvas from 'html2canvas';
 
 declare const emailjs: any;
 
@@ -12,12 +12,28 @@ interface FinalScreenProps {
 const FinalScreen: React.FC<FinalScreenProps> = ({ responseData }) => {
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgError, setImgError] = useState(false);
+  const [imageDataUrl, setImageDataUrl] = useState<string>('');
 
   const formattedDate = responseData.selectedDate 
     ? new Date(responseData.selectedDate).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })
     : 'To be decided';
 
   useEffect(() => {
+    const loadImage = async () => {
+      try {
+        const response = await fetch('/portrait.jpeg');
+        const blob = await response.blob();
+        const reader = new FileReader();
+        reader.onload = () => {
+          setImageDataUrl(reader.result as string);
+        };
+        reader.readAsDataURL(blob);
+      } catch (error) {
+        console.warn('Failed to load image as data URL:', error);
+        setImgError(true);
+      }
+    };
+    loadImage();
     const serviceId = "YOUR_SERVICE_ID";
     const templateId = "YOUR_TEMPLATE_ID";
     
@@ -52,18 +68,45 @@ const FinalScreen: React.FC<FinalScreenProps> = ({ responseData }) => {
     `📅 Date: ${formattedDate}\n` +
     `🎁 Birthday Gift: ${responseData.birthdayGift}\n` +
     `💭 Our Word: ${responseData.oneWord}\n` +
-    `✨ Emotion: ${responseData.emotion}\n\n` +
+    `✨ Emotion: ${responseData.emotion}\n` +
+    `🎭 Character: ${responseData.character}\n` +
+    `💬 Favorite Line: ${responseData.favLine}\n` +
+    `🔄 Never Change: ${Array.isArray(responseData.neverChange) ? responseData.neverChange.join(', ') : responseData.neverChange}\n` +
+    `🚀 Looking Forward: ${responseData.lookingForward}\n` +
+    `⚖️ Boundaries: ${responseData.boundaries}\n\n` +
     `Every heart needs a home... and I found mine in you, Renamma.`
   );
   
+  const downloadCard = () => {
+    if (!imgLoaded || !imageDataUrl) {
+      alert("Please wait for the image to load before downloading.");
+      return;
+    }
+    const element = document.getElementById('memory-card');
+    if (element) {
+      setTimeout(() => {
+        html2canvas(element, {
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#000000'
+        }).then(canvas => {
+          const link = document.createElement('a');
+          link.download = 'first chase.png';
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+        });
+      }, 200);
+    }
+  };
+
   const whatsappUrl = `https://wa.me/?text=${shareText}`;
 
   return (
     <div className="w-full max-w-md text-center p-6 space-y-8 animate-[zoomIn_0.6s]">
-      <div id="memory-card" className="relative inline-block group w-full">
+      <div className="relative inline-block group w-full">
         <div className="absolute -inset-1 bg-gradient-to-r from-pink-600 via-rose-500 to-pink-600 rounded-[2.5rem] blur opacity-75 group-hover:opacity-100 transition duration-1000"></div>
         
-        <div className="relative glass rounded-[2.5rem] overflow-hidden flex flex-col bg-black/95 border border-white/10 shadow-2xl">
+        <div className="relative glass rounded-[2.5rem] overflow-hidden flex flex-col bg-black/95 border border-white/10 shadow-2xl" id="memory-card">
           <div className="h-[400px] w-full overflow-hidden relative flex items-center justify-center bg-[#1a0505]">
             {imgError ? (
               <div className="flex flex-col items-center justify-center space-y-6 animate-slide-up">
@@ -75,7 +118,7 @@ const FinalScreen: React.FC<FinalScreenProps> = ({ responseData }) => {
               </div>
             ) : (
               <img 
-                src={portrait} 
+                src={imageDataUrl || '/portrait.jpeg'} 
                 alt="Bava & Renamma" 
                 className={`w-full h-full object-cover transition-all duration-1000 group-hover:scale-105 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
                 loading="eager"
@@ -84,7 +127,6 @@ const FinalScreen: React.FC<FinalScreenProps> = ({ responseData }) => {
                    console.warn("Hero portrait failed, using love symbol.");
                    setImgError(true);
                 }}
-                style={{ display: 'block', minWidth: '100%', minHeight: '100%' }}
               />
             )}
             {!imgLoaded && !imgError && (
@@ -127,18 +169,28 @@ const FinalScreen: React.FC<FinalScreenProps> = ({ responseData }) => {
       </div>
 
       <div className="flex flex-col space-y-4">
-        <a 
-          href={whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center justify-center space-x-3 bg-[#25D366] text-white px-8 py-5 rounded-2xl font-black text-lg shadow-[0_10px_30px_rgba(37,211,102,0.3)] active:scale-95 transition-all w-full"
-        >
-          <i className="fab fa-whatsapp text-2xl"></i>
-          <span>Send Card to Bava ❤️</span>
-        </a>
+        <div className="flex space-x-4">
+          <a 
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 inline-flex items-center justify-center space-x-3 bg-[#25D366] text-white px-6 py-5 rounded-2xl font-black text-lg shadow-[0_10px_30px_rgba(37,211,102,0.3)] active:scale-95 transition-all"
+          >
+            <i className="fab fa-whatsapp text-2xl"></i>
+            <span>Share ❤️</span>
+          </a>
+          
+          <button 
+            onClick={downloadCard}
+            className="flex-1 inline-flex items-center justify-center space-x-3 bg-pink-500 text-white px-6 py-5 rounded-2xl font-black text-lg shadow-[0_10px_30px_rgba(255,77,109,0.3)] active:scale-95 transition-all"
+          >
+            <i className="fas fa-download text-2xl"></i>
+            <span>Download</span>
+          </button>
+        </div>
         
         <p className="text-gray-500 text-[10px] uppercase tracking-widest animate-pulse">
-          Take a screenshot to keep this memory ✨
+          Keep this memory forever ✨
         </p>
       </div>
     </div>

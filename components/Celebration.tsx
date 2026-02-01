@@ -1,7 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
 import confetti from 'canvas-confetti';
-import portrait from '../portrait.jpeg';
 
 interface CelebrationProps {
   onNext: () => void;
@@ -10,8 +9,24 @@ interface CelebrationProps {
 const Celebration: React.FC<CelebrationProps> = ({ onNext }) => {
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgError, setImgError] = useState(false);
+  const [imageDataUrl, setImageDataUrl] = useState<string>('');
 
   useEffect(() => {
+    const loadImage = async () => {
+      try {
+        const response = await fetch('/portrait.jpeg');
+        const blob = await response.blob();
+        const reader = new FileReader();
+        reader.onload = () => {
+          setImageDataUrl(reader.result as string);
+        };
+        reader.readAsDataURL(blob);
+      } catch (error) {
+        console.warn('Failed to load image as data URL:', error);
+        setImgError(true);
+      }
+    };
+    loadImage();
     const end = Date.now() + (4 * 1000);
     const frame = () => {
       confetti({
@@ -47,7 +62,7 @@ const Celebration: React.FC<CelebrationProps> = ({ onNext }) => {
             </div>
           ) : (
             <img 
-              src={portrait} 
+              src={imageDataUrl || '/portrait.jpeg'} 
               alt="Bava & Renamma" 
               className={`w-full h-full object-cover transition-opacity duration-700 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
               loading="eager"
