@@ -33,7 +33,11 @@ const DatePicker: React.FC<DatePickerProps> = ({ onNext, onBack }) => {
 
   const handleSubmit = () => {
     if (selectedDate) {
-      onNext(selectedDate.toISOString().split('T')[0]);
+      // Use local date formatting to avoid timezone issues
+      const year = selectedDate.getFullYear();
+      const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+      const day = String(selectedDate.getDate()).padStart(2, '0');
+      onNext(`${year}-${month}-${day}`);
     }
   };
 

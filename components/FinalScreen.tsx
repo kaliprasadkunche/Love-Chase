@@ -39,191 +39,28 @@ const FinalScreen: React.FC<FinalScreenProps> = ({ responseData, onBack }) => {
     
     if (accessKey) {
       const htmlContent = `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Love Chase Response</title>
-            <style>
-                body {
-                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                    line-height: 1.6;
-                    color: #333;
-                    max-width: 600px;
-                    margin: 0 auto;
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                    padding: 20px;
-                }
-                .container {
-                    background: white;
-                    border-radius: 20px;
-                    padding: 30px;
-                    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-                    margin: 20px 0;
-                }
-                .header {
-                    text-align: center;
-                    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-                    color: white;
-                    padding: 30px;
-                    border-radius: 15px;
-                    margin-bottom: 30px;
-                }
-                .header h1 {
-                    margin: 0;
-                    font-size: 28px;
-                    font-weight: 700;
-                }
-                .header p {
-                    margin: 10px 0 0 0;
-                    opacity: 0.9;
-                    font-size: 16px;
-                }
-                .response-grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-                    gap: 20px;
-                    margin: 30px 0;
-                }
-                .response-card {
-                    background: #f8f9ff;
-                    border: 2px solid #e0e7ff;
-                    border-radius: 15px;
-                    padding: 20px;
-                    transition: transform 0.3s ease;
-                }
-                .response-card:hover {
-                    transform: translateY(-5px);
-                    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-                }
-                .response-card h3 {
-                    color: #6366f1;
-                    margin: 0 0 10px 0;
-                    font-size: 16px;
-                    font-weight: 600;
-                    display: flex;
-                    align-items: center;
-                    gap: 8px;
-                }
-                .response-card .value {
-                    color: #1f2937;
-                    font-size: 18px;
-                    font-weight: 500;
-                    margin: 0;
-                    word-wrap: break-word;
-                }
-                .heart-content {
-                    background: linear-gradient(135deg, #fef3c7, #fde68a);
-                    border: 2px solid #f59e0b;
-                    border-radius: 15px;
-                    padding: 25px;
-                    margin: 30px 0;
-                    position: relative;
-                }
-                .heart-content h3 {
-                    color: #92400e;
-                    margin: 0 0 15px 0;
-                    font-size: 20px;
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;
-                }
-                .heart-content .value {
-                    color: #78350f;
-                    font-style: italic;
-                    line-height: 1.7;
-                    white-space: pre-line;
-                    margin: 0;
-                    font-size: 16px;
-                }
-                .footer {
-                    text-align: center;
-                    margin-top: 40px;
-                    padding-top: 30px;
-                    border-top: 2px solid #e5e7eb;
-                    color: #6b7280;
-                }
-                .footer p {
-                    margin: 5px 0;
-                    font-size: 14px;
-                }
-                .emoji {
-                    font-size: 24px;
-                }
-                .small-emoji {
-                    font-size: 18px;
-                }
-                @media (max-width: 600px) {
-                    body {
-                        padding: 10px;
-                    }
-                    .container {
-                        padding: 20px;
-                    }
-                    .response-grid {
-                        grid-template-columns: 1fr;
-                    }
-                }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <div class="header">
-                    <h1>💖 Love Chase Response 💖</h1>
-                    <p>A beautiful journey captured in digital hearts</p>
-                </div>
+💖 Love Chase Response 💖
 
-                <div class="response-grid">
-                    <div class="response-card">
-                        <h3>😊 Emotion</h3>
-                        <p class="value">${responseData.emotion || 'Not specified'}</p>
-                    </div>
-                    
-                    <div class="response-card">
-                        <h3>💭 One Word</h3>
-                        <p class="value">${responseData.oneWord || 'Not specified'}</p>
-                    </div>
-                    
-                    <div class="response-card">
-                        <h3>🎭 Character/Persona</h3>
-                        <p class="value">${responseData.character || 'Not specified'}</p>
-                    </div>
-                    
-                    <div class="response-card">
-                        <h3>💬 Favorite Line</h3>
-                        <p class="value">${responseData.favLine || 'Not specified'}</p>
-                    </div>
-                    
-                    <div class="response-card">
-                        <h3>📅 Selected Date</h3>
-                        <p class="value">${formattedDate}</p>
-                    </div>
-                    
-                    <div class="response-card">
-                        <h3>🎁 Birthday Gift</h3>
-                        <p class="value">${responseData.birthdayGift || 'Not specified'}</p>
-                    </div>
-                </div>
+A beautiful journey captured with love!
 
-                <div class="heart-content">
-                    <h3>💝 From the Heart</h3>
-                    <p class="value">${responseData.heartContent || 'No message shared'}</p>
-                </div>
+📊 Response Details:
+• Emotion: ${responseData.emotion || 'Not specified'}
+• One Word: ${responseData.oneWord || 'Not specified'}
+• Character/Persona: ${responseData.character || 'Not specified'}
+• Favorite Line: ${responseData.favLine || 'Not specified'}
+• Selected Date: ${formattedDate}
+• Birthday Gift: ${responseData.birthdayGift || 'Not specified'}
 
-                <div class="footer">
-                    <p><strong>Love Chase App</strong> | Capturing moments of love</p>
-                    <p>Generated on ${new Date().toLocaleDateString('en-US', { 
-                        weekday: 'long', 
-                        year: 'numeric', 
-                        month: 'long', 
-                        day: 'numeric' 
-                    })}</p>
-                    <p>✨ Made with love for Bava & Renamma ✨</p>
-                </div>
-            </div>
-        </body>
-        </html>
+💝 From the Heart:
+${responseData.heartContent || 'No message shared'}
+
+✨ Made with love for Bava & Renamma ✨
+Generated on: ${new Date().toLocaleDateString('en-US', {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+})}
       `;
 
       const formData = {
@@ -295,8 +132,6 @@ const FinalScreen: React.FC<FinalScreenProps> = ({ responseData, onBack }) => {
       }, 200);
     }
   };
-
-  const whatsappUrl = `https://wa.me/?text=${shareText}`;
 
   return (
     <div className="w-full max-w-md text-center p-6 space-y-8 animate-[zoomIn_0.6s] relative">
@@ -375,29 +210,13 @@ const FinalScreen: React.FC<FinalScreenProps> = ({ responseData, onBack }) => {
       </div>
 
       <div className="flex flex-col space-y-4">
-        <div className="flex space-x-4">
-          <a 
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 inline-flex items-center justify-center space-x-3 bg-[#25D366] text-white px-6 py-5 rounded-2xl font-black text-lg shadow-[0_10px_30px_rgba(37,211,102,0.3)] active:scale-95 transition-all"
-          >
-            <i className="fab fa-whatsapp text-2xl"></i>
-            <span>Share ❤️</span>
-          </a>
-          
-          <button 
-            onClick={downloadCard}
-            className="flex-1 inline-flex items-center justify-center space-x-3 bg-pink-500 text-white px-6 py-5 rounded-2xl font-black text-lg shadow-[0_10px_30px_rgba(255,77,109,0.3)] active:scale-95 transition-all"
-          >
-            <i className="fas fa-download text-2xl"></i>
-            <span>Download</span>
-          </button>
-        </div>
-        
-        <p className="text-gray-500 text-[10px] uppercase tracking-widest animate-pulse">
-          Keep this memory forever ✨
-        </p>
+        <button 
+          onClick={downloadCard}
+          className="w-full inline-flex items-center justify-center space-x-3 bg-pink-500 text-white px-6 py-5 rounded-2xl font-black text-lg shadow-[0_10px_30px_rgba(255,77,109,0.3)] active:scale-95 transition-all"
+        >
+          <i className="fas fa-download text-2xl"></i>
+          <span>Keep this memory forever ✨</span>
+        </button>
       </div>
     </div>
   );
