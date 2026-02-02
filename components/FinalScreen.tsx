@@ -134,6 +134,7 @@ Generated on: ${new Date().toLocaleDateString('en-US', {
   };
 
   return (
+    <div className="w-full h-screen overflow-y-auto overflow-x-hidden flex justify-center">
     <div className="w-full max-w-md text-center p-6 space-y-8 animate-[zoomIn_0.6s] relative">
       
       <button
@@ -219,6 +220,7 @@ Generated on: ${new Date().toLocaleDateString('en-US', {
         </button>
       </div>
     </div>
+  </div>
   );
 };
 
