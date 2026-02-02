@@ -4,9 +4,10 @@ import confetti from 'canvas-confetti';
 
 interface CelebrationProps {
   onNext: () => void;
+  onBack: () => void;
 }
 
-const Celebration: React.FC<CelebrationProps> = ({ onNext }) => {
+const Celebration: React.FC<CelebrationProps> = ({ onNext, onBack }) => {
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgError, setImgError] = useState(false);
   const [imageDataUrl, setImageDataUrl] = useState<string>('');
@@ -53,6 +54,14 @@ const Celebration: React.FC<CelebrationProps> = ({ onNext }) => {
 
   return (
     <div className="text-center glass p-10 rounded-[3.5rem] max-w-sm animate-slide-up border-2 border-pink-500/20 shadow-[0_0_60px_rgba(255,77,109,0.3)] film-grain relative overflow-hidden">
+      
+      <button
+        onClick={onBack}
+        className="absolute top-4 left-4 z-20 text-pink-400 hover:text-pink-300 transition-colors text-2xl"
+        aria-label="Go back"
+      >
+        ←
+      </button>
       
       <div className="relative mb-8 z-10">
         <div className="w-64 h-64 mx-auto rounded-full border-4 border-pink-500/30 overflow-hidden shadow-[0_0_40px_rgba(255,77,109,0.6)] animate-heartbeat bg-black ring-8 ring-pink-500/10 flex items-center justify-center">
@@ -108,7 +117,7 @@ const Celebration: React.FC<CelebrationProps> = ({ onNext }) => {
         onClick={onNext}
         className="w-full py-5 bg-white text-rose-600 rounded-2xl font-black text-xl hover:scale-105 active:scale-95 transition-all shadow-2xl uppercase tracking-widest relative z-10 glow-pink"
       >
-        Tell Bava more ✨
+        more...
       </button>
     </div>
   );

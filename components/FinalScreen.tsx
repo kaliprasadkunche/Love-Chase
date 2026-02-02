@@ -3,13 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { UserResponseData } from '../types';
 import domtoimage from 'dom-to-image';
 
-declare const emailjs: any;
-
 interface FinalScreenProps {
   responseData: UserResponseData;
+  onBack: () => void;
 }
 
-const FinalScreen: React.FC<FinalScreenProps> = ({ responseData }) => {
+const FinalScreen: React.FC<FinalScreenProps> = ({ responseData, onBack }) => {
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgError, setImgError] = useState(false);
   const [imageDataUrl, setImageDataUrl] = useState<string>('');
@@ -34,30 +33,229 @@ const FinalScreen: React.FC<FinalScreenProps> = ({ responseData }) => {
       }
     };
     loadImage();
-    const serviceId = "YOUR_SERVICE_ID";
-    const templateId = "YOUR_TEMPLATE_ID";
     
-    if (typeof emailjs !== 'undefined' && serviceId !== "YOUR_SERVICE_ID") {
-      const emailParams: Record<string, string> = {
-        to_name: "Bava",
-        from_name: "Renamma",
-        emotion: String(responseData.emotion || ""),
-        one_word: String(responseData.oneWord || ""),
-        character: String(responseData.character || ""),
-        fav_line: String(responseData.favLine || ""),
-        date: String(formattedDate),
-        birthday_gift: String(responseData.birthdayGift || ""),
-        never_change: Array.isArray(responseData.neverChange) ? responseData.neverChange.join(', ') : "",
-        looking_forward: String(responseData.lookingForward || ""),
-        boundaries: String(responseData.boundaries || 'No boundaries mentioned.')
+    // Web3Forms configuration
+    const accessKey = "e143b952-17d4-4ad8-82d0-0c5b117be300";
+    
+    if (accessKey) {
+      const htmlContent = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Love Chase Response</title>
+            <style>
+                body {
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    line-height: 1.6;
+                    color: #333;
+                    max-width: 600px;
+                    margin: 0 auto;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    padding: 20px;
+                }
+                .container {
+                    background: white;
+                    border-radius: 20px;
+                    padding: 30px;
+                    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+                    margin: 20px 0;
+                }
+                .header {
+                    text-align: center;
+                    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+                    color: white;
+                    padding: 30px;
+                    border-radius: 15px;
+                    margin-bottom: 30px;
+                }
+                .header h1 {
+                    margin: 0;
+                    font-size: 28px;
+                    font-weight: 700;
+                }
+                .header p {
+                    margin: 10px 0 0 0;
+                    opacity: 0.9;
+                    font-size: 16px;
+                }
+                .response-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                    gap: 20px;
+                    margin: 30px 0;
+                }
+                .response-card {
+                    background: #f8f9ff;
+                    border: 2px solid #e0e7ff;
+                    border-radius: 15px;
+                    padding: 20px;
+                    transition: transform 0.3s ease;
+                }
+                .response-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+                }
+                .response-card h3 {
+                    color: #6366f1;
+                    margin: 0 0 10px 0;
+                    font-size: 16px;
+                    font-weight: 600;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                }
+                .response-card .value {
+                    color: #1f2937;
+                    font-size: 18px;
+                    font-weight: 500;
+                    margin: 0;
+                    word-wrap: break-word;
+                }
+                .heart-content {
+                    background: linear-gradient(135deg, #fef3c7, #fde68a);
+                    border: 2px solid #f59e0b;
+                    border-radius: 15px;
+                    padding: 25px;
+                    margin: 30px 0;
+                    position: relative;
+                }
+                .heart-content h3 {
+                    color: #92400e;
+                    margin: 0 0 15px 0;
+                    font-size: 20px;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+                .heart-content .value {
+                    color: #78350f;
+                    font-style: italic;
+                    line-height: 1.7;
+                    white-space: pre-line;
+                    margin: 0;
+                    font-size: 16px;
+                }
+                .footer {
+                    text-align: center;
+                    margin-top: 40px;
+                    padding-top: 30px;
+                    border-top: 2px solid #e5e7eb;
+                    color: #6b7280;
+                }
+                .footer p {
+                    margin: 5px 0;
+                    font-size: 14px;
+                }
+                .emoji {
+                    font-size: 24px;
+                }
+                .small-emoji {
+                    font-size: 18px;
+                }
+                @media (max-width: 600px) {
+                    body {
+                        padding: 10px;
+                    }
+                    .container {
+                        padding: 20px;
+                    }
+                    .response-grid {
+                        grid-template-columns: 1fr;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <h1>💖 Love Chase Response 💖</h1>
+                    <p>A beautiful journey captured in digital hearts</p>
+                </div>
+
+                <div class="response-grid">
+                    <div class="response-card">
+                        <h3>😊 Emotion</h3>
+                        <p class="value">${responseData.emotion || 'Not specified'}</p>
+                    </div>
+                    
+                    <div class="response-card">
+                        <h3>💭 One Word</h3>
+                        <p class="value">${responseData.oneWord || 'Not specified'}</p>
+                    </div>
+                    
+                    <div class="response-card">
+                        <h3>🎭 Character/Persona</h3>
+                        <p class="value">${responseData.character || 'Not specified'}</p>
+                    </div>
+                    
+                    <div class="response-card">
+                        <h3>💬 Favorite Line</h3>
+                        <p class="value">${responseData.favLine || 'Not specified'}</p>
+                    </div>
+                    
+                    <div class="response-card">
+                        <h3>📅 Selected Date</h3>
+                        <p class="value">${formattedDate}</p>
+                    </div>
+                    
+                    <div class="response-card">
+                        <h3>🎁 Birthday Gift</h3>
+                        <p class="value">${responseData.birthdayGift || 'Not specified'}</p>
+                    </div>
+                </div>
+
+                <div class="heart-content">
+                    <h3>💝 From the Heart</h3>
+                    <p class="value">${responseData.heartContent || 'No message shared'}</p>
+                </div>
+
+                <div class="footer">
+                    <p><strong>Love Chase App</strong> | Capturing moments of love</p>
+                    <p>Generated on ${new Date().toLocaleDateString('en-US', { 
+                        weekday: 'long', 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    })}</p>
+                    <p>✨ Made with love for Bava & Renamma ✨</p>
+                </div>
+            </div>
+        </body>
+        </html>
+      `;
+
+      const formData = {
+        access_key: accessKey,
+        subject: "💖 New Love Chase Response - Beautiful Journey Captured! 💖",
+        from_name: "Love Chase App",
+        to_email: "kaliprasadkunche@gmail.com",
+        html: htmlContent
       };
 
       try {
-        emailjs.send(serviceId, templateId, emailParams)
-          .then(() => console.log('💖 Memory shared!'))
-          .catch((err: any) => console.warn('Email check:', String(err)));
+        fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+          },
+          body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            console.log('💖 Love Chase response sent successfully!');
+          } else {
+            console.warn('Web3Forms submission failed:', data.message);
+          }
+        })
+        .catch((err: any) => {
+          console.warn('Web3Forms error:', String(err));
+        });
       } catch (e) {
-        console.error("EmailJS execution failed:", String(e));
+        console.error("Web3Forms execution failed:", String(e));
       }
     }
   }, [responseData, formattedDate]);
@@ -71,9 +269,7 @@ const FinalScreen: React.FC<FinalScreenProps> = ({ responseData }) => {
     `✨ Emotion: ${responseData.emotion}\n` +
     `🎭 Character: ${responseData.character}\n` +
     `💬 Favorite Line: ${responseData.favLine}\n` +
-    `🔄 Never Change: ${Array.isArray(responseData.neverChange) ? responseData.neverChange.join(', ') : responseData.neverChange}\n` +
-    `🚀 Looking Forward: ${responseData.lookingForward}\n` +
-    `⚖️ Boundaries: ${responseData.boundaries}\n\n` +
+    `� Heart Content: ${responseData.heartContent}\n\n` +
     `Every heart needs a home... and I found mine in you, Renamma.`
   );
   
@@ -103,7 +299,16 @@ const FinalScreen: React.FC<FinalScreenProps> = ({ responseData }) => {
   const whatsappUrl = `https://wa.me/?text=${shareText}`;
 
   return (
-    <div className="w-full max-w-md text-center p-6 space-y-8 animate-[zoomIn_0.6s]">
+    <div className="w-full max-w-md text-center p-6 space-y-8 animate-[zoomIn_0.6s] relative">
+      
+      <button
+        onClick={onBack}
+        className="absolute top-4 left-4 z-20 text-pink-400 hover:text-pink-300 transition-colors text-2xl"
+        aria-label="Go back"
+      >
+        ←
+      </button>
+      
       <div className="relative inline-block group w-full">
         <div className="absolute -inset-1 bg-gradient-to-r from-pink-600 via-rose-500 to-pink-600 rounded-[2.5rem] blur opacity-75 group-hover:opacity-100 transition duration-1000"></div>
         

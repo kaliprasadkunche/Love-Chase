@@ -3,6 +3,7 @@ export enum AppState {
   INTRO = 'INTRO',
   PROPOSAL = 'PROPOSAL',
   CELEBRATION = 'CELEBRATION',
+  LOVE_LETTER = 'LOVE_LETTER',
   EMOTION_REFLECT = 'EMOTION_REFLECT',
   PERSONA_PICKER = 'PERSONA_PICKER',
   DATE_PICKER = 'DATE_PICKER',
@@ -19,7 +20,5 @@ export interface UserResponseData {
   favLine: string;
   selectedDate: string;
   birthdayGift: string;
-  neverChange: string[];
-  lookingForward: string;
-  boundaries: string;
+  heartContent: string;
 }

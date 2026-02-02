@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 
 interface EmotionalReflectionProps {
   onNext: (emotion: string, oneWord: string) => void;
+  onBack: () => void;
 }
 
-const EmotionalReflection: React.FC<EmotionalReflectionProps> = ({ onNext }) => {
+const EmotionalReflection: React.FC<EmotionalReflectionProps> = ({ onNext, onBack }) => {
   const [emotion, setEmotion] = useState('');
   const [oneWord, setOneWord] = useState('');
 
@@ -18,7 +19,16 @@ const EmotionalReflection: React.FC<EmotionalReflectionProps> = ({ onNext }) => 
   ];
 
   return (
-    <div className="w-full max-w-sm glass p-8 rounded-[2rem] animate-slide-up border border-white/10 shadow-2xl flex flex-col gap-8">
+    <div className="w-full max-w-sm glass p-8 rounded-[2rem] animate-slide-up border border-white/10 shadow-2xl flex flex-col gap-8 relative">
+      
+      <button
+        onClick={onBack}
+        className="absolute top-4 left-4 z-20 text-pink-400 hover:text-pink-300 transition-colors text-2xl"
+        aria-label="Go back"
+      >
+        ←
+      </button>
+      
       <div className="text-center">
         <p className="text-[10px] uppercase tracking-widest text-pink-300/60 mb-2">My Mardhal... 😌</p>
         <h3 className="text-2xl font-romantic text-pink-400 leading-tight">How did your Bava's chase make you feel?</h3>

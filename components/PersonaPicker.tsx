@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 
 interface PersonaPickerProps {
   onNext: (character: string, favLine: string) => void;
+  onBack: () => void;
 }
 
-const PersonaPicker: React.FC<PersonaPickerProps> = ({ onNext }) => {
+const PersonaPicker: React.FC<PersonaPickerProps> = ({ onNext, onBack }) => {
   const [character, setCharacter] = useState('');
   const [line, setLine] = useState('');
 
@@ -23,7 +24,16 @@ const PersonaPicker: React.FC<PersonaPickerProps> = ({ onNext }) => {
   ];
 
   return (
-    <div className="w-full max-w-md glass p-8 rounded-[2rem] animate-slide-up border border-white/10 shadow-2xl flex flex-col gap-6">
+    <div className="w-full max-w-md glass p-8 rounded-[2rem] animate-slide-up border border-white/10 shadow-2xl flex flex-col gap-6 relative">
+      
+      <button
+        onClick={onBack}
+        className="absolute top-4 left-4 z-20 text-pink-400 hover:text-pink-300 transition-colors text-2xl"
+        aria-label="Go back"
+      >
+        ←
+      </button>
+      
       <div className="text-center">
         <h3 className="text-2xl font-romantic text-pink-400">Who are you to your Bava? 🌹</h3>
       </div>

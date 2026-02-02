@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 
 interface DatePickerProps {
   onNext: (date: string) => void;
+  onBack: () => void;
 }
 
-const DatePicker: React.FC<DatePickerProps> = ({ onNext }) => {
+const DatePicker: React.FC<DatePickerProps> = ({ onNext, onBack }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [viewDate, setViewDate] = useState(new Date());
 
@@ -67,7 +68,16 @@ const DatePicker: React.FC<DatePickerProps> = ({ onNext }) => {
   const weekDays = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
   return (
-    <div className="w-full max-w-sm glass p-6 rounded-[2.5rem] animate-slide-up border border-white/10 shadow-2xl flex flex-col items-center">
+    <div className="w-full max-w-sm glass p-6 rounded-[2.5rem] animate-slide-up border border-white/10 shadow-2xl flex flex-col items-center relative">
+      
+      <button
+        onClick={onBack}
+        className="absolute top-4 left-4 z-20 text-pink-400 hover:text-pink-300 transition-colors text-2xl"
+        aria-label="Go back"
+      >
+        ←
+      </button>
+      
       <h3 className="text-xl text-center font-romantic text-pink-300 mb-8 px-4 leading-relaxed">
         When should this bava take his mardhal on a date? 💕
       </h3>

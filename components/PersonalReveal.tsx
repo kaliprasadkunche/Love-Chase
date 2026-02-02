@@ -3,9 +3,10 @@ import React from 'react';
 
 interface PersonalRevealProps {
   onComplete: () => void;
+  onBack: () => void;
 }
 
-const PersonalReveal: React.FC<PersonalRevealProps> = ({ onComplete }) => {
+const PersonalReveal: React.FC<PersonalRevealProps> = ({ onComplete, onBack }) => {
   const reasons = [
     "I feel completely comfortable with you — in a way I’ve never felt with anyone else. With you, my heart rests.",
     "I believe in the universe and in God, and every day it feels like they are quietly proving that everything happening is meant for us.",
@@ -16,6 +17,15 @@ const PersonalReveal: React.FC<PersonalRevealProps> = ({ onComplete }) => {
 
   return (
     <div className="w-full max-w-sm glass p-8 md:p-10 rounded-[3rem] animate-slide-up border border-pink-500/20 shadow-2xl relative overflow-hidden flex flex-col h-[85vh] max-h-[750px]">
+      
+      <button
+        onClick={onBack}
+        className="absolute top-4 left-4 z-20 text-pink-400 hover:text-pink-300 transition-colors text-2xl"
+        aria-label="Go back"
+      >
+        ←
+      </button>
+      
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-pink-500 to-transparent"></div>
       
       <div className="text-center mb-8 flex-shrink-0">

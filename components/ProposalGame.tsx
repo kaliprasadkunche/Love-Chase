@@ -3,6 +3,7 @@ import React, { useState, useCallback, useRef, useEffect } from 'react';
 
 interface ProposalGameProps {
   onYes: () => void;
+  onBack: () => void;
 }
 
 interface Ghost {
@@ -11,7 +12,7 @@ interface Ghost {
   y: number;
 }
 
-const ProposalGame: React.FC<ProposalGameProps> = ({ onYes }) => {
+const ProposalGame: React.FC<ProposalGameProps> = ({ onYes, onBack }) => {
   const [noPos, setNoPos] = useState({ x: 0, y: 0 });
   const [yesPos, setYesPos] = useState({ x: 0, y: 0 });
   const [attempts, setAttempts] = useState(0);
@@ -131,6 +132,14 @@ const ProposalGame: React.FC<ProposalGameProps> = ({ onYes }) => {
 
   return (
     <div className={`w-full h-full flex flex-col items-center justify-center space-y-12 select-none overflow-hidden relative transition-colors duration-1000 ${isSad ? 'bg-rose-950/10' : ''}`}>
+      
+      <button
+        onClick={onBack}
+        className="absolute top-4 left-4 z-20 text-pink-400 hover:text-pink-300 transition-colors text-2xl"
+        aria-label="Go back"
+      >
+        ←
+      </button>
       
       {/* Flash Messages at Bottom */}
       <div className={`fixed inset-x-0 bottom-24 z-50 flex justify-center transition-all duration-500 pointer-events-none transform ${isEscaping && currentMessage ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-10 opacity-0 scale-90'}`}>
